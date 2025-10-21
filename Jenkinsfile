@@ -54,7 +54,7 @@ pipeline {
                     version: '${env.BUILD_ID}-${env.BUILD_TIMESTAMP}',
                     repository: 'products_app',
                     credentialsId: 'nexuslogin',
-                    artifact [
+                    artifacts: [
                         [artifactId: 'products_app',
                             type: 'war',
                             classifier: 'debug',
