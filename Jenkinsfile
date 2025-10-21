@@ -58,7 +58,7 @@ pipeline {
                         [artifactId: 'products_app',
                             type: 'war',
                             classifier: 'debug',
-                            file: 'products_app-v1.war']
+                            file: 'target/products_app-v1.war']
                     ]
                )
             }
