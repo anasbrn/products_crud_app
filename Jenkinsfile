@@ -31,7 +31,7 @@ pipeline {
                         -Dsonar.sources=src \
                         -Dsonar.java.binaries=target/classes/ \
                         -Dsonar.host.url=${SONAR_HOST_URL} \
-                        -Dsonar.login=${SONAR_AUTH_TOKEN}"""
+                        -Dsonar.token=${SONAR_AUTH_TOKEN}"""
                 }
             }
         }
