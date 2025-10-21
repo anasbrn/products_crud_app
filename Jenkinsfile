@@ -24,7 +24,6 @@ pipeline {
                 scannerHome = tool 'sonarScanner7'
             }
             steps {
-                input 'Run SonarQube Analysis ?'
                 withSonarQubeEnv('sonarServer') {
                      sh """${scannerHome}/bin/sonar-scanner \
                         -Dsonar.projectKey=products_app \
