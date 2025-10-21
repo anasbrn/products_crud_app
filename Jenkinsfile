@@ -24,6 +24,7 @@ pipeline {
                 scannerHome = tool 'sonarScanner7'
             }
             steps {
+                input 'Run SonarQube Analysis ?'
                 withSonarQubeEnv('sonarServer') {
                      sh """${scannerHome}/bin/sonar-scanner \
                         -Dsonar.projectKey=products_app \
@@ -46,7 +47,7 @@ pipeline {
     }
 
     post {
-        failure {
+        always {
             slackSend (
                 color: COLOR[currentBuild.currentResult],
                 message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}"
