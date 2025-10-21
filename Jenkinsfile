@@ -46,7 +46,7 @@ pipeline {
 
         stage("Upload Artifact - Nexus") {
             steps {
-                nexusArtifactUploader {
+                nexusArtifactUploader(
                     nexusVersion: 'nexus3',
                     protocol: 'http',
                     nexusUrl: 'http://172.31.21.48:8081',
@@ -54,13 +54,13 @@ pipeline {
                     version: '${env.BUILD_ID}-${env.BUILD_TIMESTAMP}',
                     repository: 'products_app',
                     credentialsId: 'nexuslogin',
-                    artifact {
-                        artifactId: 'products_app',
-                        type: 'war',
-                        classifier: 'debug',
-                        file: 'products_app-v1.war'
-                    }
-               }
+                    artifact [
+                        [artifactId: 'products_app',
+                            type: 'war',
+                            classifier: 'debug',
+                            file: 'products_app-v1.war']
+                    ]
+               )
             }
         }
     }
