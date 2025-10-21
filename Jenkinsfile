@@ -49,7 +49,7 @@ pipeline {
                 nexusArtifactUploader(
                     nexusVersion: 'nexus3',
                     protocol: 'http',
-                    nexusUrl: 'http://172.31.21.48:8081',
+                    nexusUrl: '172.31.21.48:8081',
                     groupId: 'org.brnanas',
                     version: '${env.BUILD_ID}-${env.BUILD_TIMESTAMP}',
                     repository: 'products_app',
