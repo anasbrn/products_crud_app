@@ -16,7 +16,7 @@ pipeline {
 
         stage("SonarQube Analysis") {
             steps {
-                withSonarQubeEnv(credentialsId: 'sonarServer', scannerHome: 'sonarScanner7') {
+                withSonarQubeEnv('sonarServer') {
                      sh "${scannerHome}/bin/sonar-scanner \
                         -Dsonar.projectKey=products_app \
                         -Dsonar.projectName=Products App \
