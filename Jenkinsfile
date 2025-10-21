@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage("Build") {
             steps {
-                sh 'mvn install'
+                sh 'mvn clean install -DskipTests'
             }
         }
 
@@ -24,6 +24,7 @@ pipeline {
                         -Dsonar.projectKey=products_app \
                         -Dsonar.projectName=products_App \
                         -Dsonar.sources=src \
+                        -Dsonar.java.binaries=target/classes/ \
                         -Dsonar.host.url=${SONAR_HOST_URL} \
                         -Dsonar.login=${SONAR_AUTH_TOKEN}"""
                 }
