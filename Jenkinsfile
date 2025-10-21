@@ -46,9 +46,11 @@ pipeline {
     }
 
     post {
-        slackSend (
-            color: COLOR[currentBuild.currentResult],
-            message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}"
-        )
+        failure {
+            slackSend (
+                color: COLOR[currentBuild.currentResult],
+                message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}"
+            )
+        }
     }
 }
