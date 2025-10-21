@@ -1,7 +1,7 @@
-package org.brnanas.thymleaf_spring_boot;
+package org.thymleaf_spring_boot;
 
-import org.brnanas.thymleaf_spring_boot.entities.Product;
-import org.brnanas.thymleaf_spring_boot.repositories.ProductRepository;
+import org.thymleaf_spring_boot.entities.Product;
+import org.thymleaf_spring_boot.repositories.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

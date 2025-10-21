@@ -1,4 +1,4 @@
-package org.brnanas.thymleaf_spring_boot.entities;
+package org.thymleaf_spring_boot.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

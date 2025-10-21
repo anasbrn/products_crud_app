@@ -1,7 +1,7 @@
-package org.brnanas.thymleaf_spring_boot.controllers;
+package org.thymleaf_spring_boot.controllers;
 
-import org.brnanas.thymleaf_spring_boot.entities.Product;
-import org.brnanas.thymleaf_spring_boot.repositories.ProductRepository;
+import org.thymleaf_spring_boot.entities.Product;
+import org.thymleaf_spring_boot.repositories.ProductRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
