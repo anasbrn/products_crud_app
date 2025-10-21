@@ -3,11 +3,15 @@ pipeline {
 
     stages {
         stage("Build") {
-            sh 'mvn install'
+            steps {
+                sh 'mvn install'
+            }
         }
 
         stage("Unit test") {
-            sh 'mvn test'
+            steps {
+                sh 'mvn test'
+            }
         }
     }
 }
