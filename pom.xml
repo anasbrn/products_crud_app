@@ -11,7 +11,7 @@
     <groupId>org.brnanas</groupId>
     <artifactId>products_app</artifactId>
     <version>v1</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>thymleaf_spring_boot</name>
     <description>thymleaf_spring_boot</description>
     <url/>

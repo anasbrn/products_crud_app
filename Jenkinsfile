@@ -44,25 +44,31 @@ pipeline {
             }
         }
 
-        stage("Upload Artifact - Nexus") {
-            steps {
-                nexusArtifactUploader(
-                    nexusVersion: 'nexus3',
-                    protocol: 'http',
-                    nexusUrl: '172.31.21.48:8081',
-                    groupId: 'org.brnanas',
-                    version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
-                    repository: 'products_app',
-                    credentialsId: 'nexuslogin',
-                    artifacts: [
-                        [artifactId: 'products_app',
-                            type: 'war',
-                            classifier: 'debug',
-                            file: 'target/products_app-v1.war']
-                    ]
-               )
+//         stage("Upload Artifact - Nexus") {
+//             steps {
+//                 nexusArtifactUploader(
+//                     nexusVersion: 'nexus3',
+//                     protocol: 'http',
+//                     nexusUrl: '172.31.21.48:8081',
+//                     groupId: 'org.brnanas',
+//                     version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+//                     repository: 'products_app',
+//                     credentialsId: 'nexuslogin',
+//                     artifacts: [
+//                         [artifactId: 'products_app',
+//                             type: 'war',
+//                             classifier: 'debug',
+//                             file: 'target/products_app-v1.war']
+//                     ]
+//                )
+//             }
+//         }
+
+            stage("Build Docker") {
+                steps {
+                    docker.build("products-app:${env.BUILD_NUMBER}")
+                }
             }
-        }
     }
 
     post {
