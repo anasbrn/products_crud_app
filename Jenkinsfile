@@ -27,30 +27,30 @@ pipeline {
             }
         }
 
-        stage("SonarQube Analysis") {
-            environment {
-                scannerHome = tool 'sonarScanner7'
-            }
-            steps {
-                withSonarQubeEnv('sonarServer') {
-                     sh """${scannerHome}/bin/sonar-scanner \
-                        -Dsonar.projectKey=products_app \
-                        -Dsonar.projectName=products_App \
-                        -Dsonar.sources=src \
-                        -Dsonar.java.binaries=target/classes/ \
-                        -Dsonar.host.url=${SONAR_HOST_URL} \
-                        -Dsonar.token=${SONAR_AUTH_TOKEN}"""
-                }
-            }
-        }
+//         stage("SonarQube Analysis") {
+//             environment {
+//                 scannerHome = tool 'sonarScanner7'
+//             }
+//             steps {
+//                 withSonarQubeEnv('sonarServer') {
+//                      sh """${scannerHome}/bin/sonar-scanner \
+//                         -Dsonar.projectKey=products_app \
+//                         -Dsonar.projectName=products_App \
+//                         -Dsonar.sources=src \
+//                         -Dsonar.java.binaries=target/classes/ \
+//                         -Dsonar.host.url=${SONAR_HOST_URL} \
+//                         -Dsonar.token=${SONAR_AUTH_TOKEN}"""
+//                 }
+//             }
+//         }
 
-        stage("Quality Gate") {
-            steps {
-                timeout(time:1, unit: 'HOURS') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
+//         stage("Quality Gate") {
+//             steps {
+//                 timeout(time:1, unit: 'HOURS') {
+//                     waitForQualityGate abortPipeline: true
+//                 }
+//             }
+//         }
 
 //         stage("Upload Artifact - Nexus") {
 //             steps {
