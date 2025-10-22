@@ -6,6 +6,12 @@ def COLOR = [
 pipeline {
     agent any
 
+    environment {
+        registryCreds: "ecr:us-east-1:awscreds"
+        imageName: "701544682801.dkr.ecr.us-east-1.amazonaws.com/products-app-img"
+        registry: "https://701544682801.dkr.ecr.us-east-1.amazonaws.com"
+    }
+
     stages {
         stage("Build") {
             steps {
@@ -68,6 +74,17 @@ pipeline {
                 steps {
                     script {
                         docker.build("products-app:${env.BUILD_NUMBER}")
+                    }
+                }
+            }
+
+            stage("Upload image to Registry") {
+                steps {
+                    script {
+                        docker.withRegistry( registry, registryCreds) {
+                            dockerImage.push("$BUILD_NUMBER")
+                            dockerImage.push("latest")
+                        }
                     }
                 }
             }
