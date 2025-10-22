@@ -66,7 +66,9 @@ pipeline {
 
             stage("Build Docker") {
                 steps {
-                    docker.build("products-app:${env.BUILD_NUMBER}")
+                    script {
+                        docker.build("products-app:${env.BUILD_NUMBER}")
+                    }
                 }
             }
     }
