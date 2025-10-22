@@ -7,9 +7,9 @@ pipeline {
     agent any
 
     environment {
-        registryCreds: "ecr:us-east-1:awscreds"
-        imageName: "701544682801.dkr.ecr.us-east-1.amazonaws.com/products-app-img"
-        registry: "https://701544682801.dkr.ecr.us-east-1.amazonaws.com"
+        registryCreds = "ecr:us-east-1:awscreds"
+        imageName = "701544682801.dkr.ecr.us-east-1.amazonaws.com/products-app-img"
+        registry = "https://701544682801.dkr.ecr.us-east-1.amazonaws.com"
     }
 
     stages {
@@ -73,7 +73,7 @@ pipeline {
             stage("Build Docker") {
                 steps {
                     script {
-                        docker.build("products-app:${env.BUILD_NUMBER}")
+                        dockerImage = docker.build(imageName + ":$BUILD_NUMBER")
                     }
                 }
             }
