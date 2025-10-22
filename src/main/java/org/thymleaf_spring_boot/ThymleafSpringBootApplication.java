@@ -19,6 +19,7 @@ public class ThymleafSpringBootApplication {
         return args -> {
             Product product1 = Product.builder().name("p1").price(10.20).description("pppppp11111").build();
             Product product2 = Product.builder().name("p2").price(50.0).description("pppppp22222").build();
+            Product product3 = Product.builder().name("p3").price(70.0).description("pppppp33333").build();
             productRepository.save(product1);
             productRepository.save(product2);
         };
