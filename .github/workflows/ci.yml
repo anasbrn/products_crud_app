@@ -23,7 +23,7 @@ jobs:
       - name: Maven Test
         run: mvn test
 
-  Scan checkstyle:
+  Scan:
     runs-on: ubuntu-latest
     needs: Build
     steps:
