@@ -26,7 +26,7 @@ jobs:
       - name: Code checkout
         uses: actions/checkout@v5
 
-      - name: Maven Test
+      - name: Maven Tes
         run: mvn test
 
   Scan:
@@ -47,3 +47,10 @@ jobs:
 
       - name: Create Foo dir
         run: mkdir Foo
+
+  Post-check:
+    runs-on: ubuntu-latest
+    needs: [Build, Test, Scan]
+    if: failure()
+    run: echo "❌ failed!"
+
