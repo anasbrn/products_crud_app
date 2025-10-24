@@ -1,5 +1,5 @@
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -32,3 +32,12 @@ jobs:
 
       - name: Test checkstyle
         run: mvn test checkstyle:checkstyle
+
+  Foo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v5
+
+      - name: Create Foo dir
+        run: mkdir Foo
