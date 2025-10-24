@@ -64,5 +64,8 @@ jobs:
           needs.Build.result == 'failure' ||
           needs.Test.result == 'failure' ||
           needs.Scan.result == 'failure'
-        run: echo "❌ failed!"
+        run: | 
+          echo "❌ failed!"
+          echo "Build job output: ${{ needs.Build.outputs }}"
+          echo "Test job result: ${{ needs.Test.result }}"
 
