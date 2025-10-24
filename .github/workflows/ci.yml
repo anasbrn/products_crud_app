@@ -23,9 +23,9 @@ jobs:
       - name: Maven Test
         run: mvn test
 
-    Scan checkstyle:
-      runs-on: ubuntu-latest
-      needs: Build
-      steps:
-        - name: Test checkstyle
-          run: mvn test checkstyle:checkstyle
+  Scan checkstyle:
+    runs-on: ubuntu-latest
+    needs: Build
+    steps:
+      - name: Test checkstyle
+        run: mvn test checkstyle:checkstyle
