@@ -5,6 +5,7 @@ on:
 
 jobs:
   Build:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Code checkout
@@ -14,6 +15,7 @@ jobs:
         run: mvn install -DskipTests
 
   Test:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     needs: Build
     steps:
@@ -24,6 +26,7 @@ jobs:
         run: mvn test
 
   Scan:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     needs: Build
     steps:
@@ -34,6 +37,7 @@ jobs:
         run: mvn test checkstyle:checkstyle
 
   Foo:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Code checkout
