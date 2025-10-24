@@ -49,10 +49,20 @@ jobs:
         run: mkdir Foo
 
   Post-check:
+    if: always()
     runs-on: ubuntu-latest
     needs: [Build, Test, Scan]
     steps:
+      - name: Summarize Results
+        run: |
+          echo "Build result: ${{ needs.Build.result }}"
+          echo "Test result: ${{ needs.Test.result }}"
+          echo "Scan result: ${{ needs.Scan.result }}"          
+
       - name: Failure notif
-        if: failure()
+        if: |
+          needs.Build.result == 'failure' ||
+          needs.Test.result == 'failure' ||
+          needs.Scan.result == 'failure'
         run: echo "❌ failed!"
 
