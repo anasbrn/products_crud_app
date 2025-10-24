@@ -1,0 +1,10 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  runs-on: ubuntu-latest
+  steps:
+    - name: test echo command
+      run: "echo anas"
