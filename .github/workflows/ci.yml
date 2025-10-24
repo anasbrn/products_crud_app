@@ -4,8 +4,18 @@ on:
       - main
 
 jobs:
-  Echo:
+  Build:
     runs-on: ubuntu-latest
     steps:
-      - name: test echo command
-        run: "echo anas"
+      - name: Code checkout
+      - uses: actions/checkout@v5
+
+      - name: Maven Build
+        run: mvn install -DskipTests
+
+  Test:
+    runs-on : ubuntu-latest
+    needs: Build
+    steps:
+      - name: Maven Test
+        run: mvn test
