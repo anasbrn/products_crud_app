@@ -4,7 +4,8 @@ on:
       - main
 
 jobs:
-  runs-on: ubuntu-latest
-  steps:
-    - name: test echo command
-      run: "echo anas"
+  Echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test echo command
+        run: "echo anas"
