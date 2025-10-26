@@ -2,6 +2,8 @@ on:
   push:
     branches:
       - main
+env:
+  ENV_NAME: ${{ vars.env_name }}
 
 jobs:
 #  Build:
@@ -54,8 +56,6 @@ jobs:
     steps:
       - name: show value of env name
         run: echo $ENV_NAME
-        env:
-          ENV_NAME: ${{ vars.env_name }}
 
   env_name_dev:
     runs-on: ubuntu-latest
@@ -63,9 +63,6 @@ jobs:
     steps:
       - name: show value of env name
         run: echo $ENV_NAME
-        env:
-          ENV_NAME: ${{ vars.env_name }}
-
 
 #  Post-check:
 #    if: always()
