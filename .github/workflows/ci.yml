@@ -52,6 +52,7 @@ jobs:
 #        run: mkdir Foo
 
   env_name_prod:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     environment: production
     steps:
@@ -59,7 +60,7 @@ jobs:
         run: echo $ENV_NAME
 
   env_name_dev:
-    if: ${{ github.event_name != 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     environment: dev
     steps:
