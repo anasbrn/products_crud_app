@@ -4,8 +4,8 @@ on:
       - main
 
 permissions:
-  issues: write
-  contents: write
+  issues: none
+  contents: none
 
 jobs:
 #  Build:
