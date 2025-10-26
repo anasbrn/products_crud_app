@@ -59,7 +59,7 @@ jobs:
 
   env_name_dev:
     runs-on: ubuntu-latest
-    environment: production
+    environment: dev
     steps:
       - name: show value of env name
         run: echo $ENV_NAME
