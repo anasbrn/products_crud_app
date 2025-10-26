@@ -70,6 +70,15 @@ jobs:
           git checkout 88267f35e95b1bffa919b8d579f00d617c4681e9
           cat file.txt
 
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - run: |
+          git checkout 88267f35e95b1bffa919b8d579f00d617c4681e9 -- file.txt
+
 
 #  Post-check:
 #    if: always()
