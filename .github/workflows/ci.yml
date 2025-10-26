@@ -1,28 +1,7 @@
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
-        type: choice
-        options:
-          - info
-          - warning
-          - debug
-      tags:
-        description: 'Test scenario tags'
-        required: false
-        type: boolean
-      environment:
-        description: 'Environment to run tests against'
-        type: environment
-        required: true
-
-env:
-  ENV_NAME: ${{ vars.env_name }}
+    branches:
+      - main
 
 jobs:
 #  Build:
@@ -69,33 +48,34 @@ jobs:
 #      - name: Create Foo dir
 #        run: mkdir Foo
 
-  log-the-inputs:
+  test_permissions_issues:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "Log level: $LEVEL"
-          echo "Tags: $TAGS"
-          echo "Environment: $ENVIRONMENT"
-        env:
-          LEVEL: ${{ inputs.logLevel }}
-          TAGS: ${{ inputs.tags }}
-          ENVIRONMENT: ${{ inputs.environment }}
+      - name: List issues
+        run: |
+          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+             https://api.github.com/repos/${{ github.repository }}/issues
 
-  env_name_prod:
-    # if: ${{ github.event_name == 'workflow_dispatch' }}
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - name: show value of env name
-        run: echo $ENV_NAME
+      - name: Create issue
+        run: |
+          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -d '{"title":"Test issue"}' \
+              https://api.github.com/repos/${{ github.repository }}/issues
 
-  env_name_dev:
-    # if: ${{ github.event_name == 'push' }}
+  test_permissions_code:
     runs-on: ubuntu-latest
-    environment: dev
     steps:
-      - name: show value of env name
-        run: echo $ENV_NAME
+      - uses: actions/checkout@v5
+      - name: Create file.txt
+        run: echo "test permission" > file.txt
+
+      - name: Push file.txt
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add hello.txt
+          git commit -m "Add hello.txt"
+          git push
 
 #  Post-check:
 #    if: always()
