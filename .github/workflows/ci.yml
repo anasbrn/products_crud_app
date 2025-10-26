@@ -71,7 +71,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Create file.txt
-        run: echo "test permission" > file.txt
+        run: echo "test permissionnnn" >> file.txt
 
       - name: Push file.txt
         run: |
