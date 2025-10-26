@@ -52,34 +52,12 @@ jobs:
 #      - name: Create Foo dir
 #        run: mkdir Foo
 
-  test_permissions_issues:
-    runs-on: ubuntu-latest
-    steps:
-      - name: List issues
-        run: |
-          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-             https://api.github.com/repos/${{ github.repository }}/issues
-
-      - name: Create issue
-        run: |
-          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-              -d '{"title":"Test issue"}' \
-              https://api.github.com/repos/${{ github.repository }}/issues
-
-  test_permissions_code:
+  cat_file_txt_not_exist:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - name: Create file.txt
-        run: echo "test permissionnnn" >> file.txt
+      - run: cat file.txt
 
-      - name: Push file.txt
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add file.txt
-          git commit -m "Add file.txt"
-          git push
 
 #  Post-check:
 #    if: always()
