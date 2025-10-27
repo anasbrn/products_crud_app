@@ -39,35 +39,49 @@ jobs:
 #
 #      - name: Test checkstyle
 #        run: mvn test checkstyle:checkstyle
-
   BUILD_PUSH_DOKCER:
     runs-on: ubuntu-latest
-    environment: Production
-    #    needs: [Build, Test, Scan]
+#    needs: [ Build, Test, Scan ]
     steps:
       - name: checkout
         uses: actions/checkout@v5
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: login to ECR
+        id: ecr
+        uses: elgohr/ecr-login-action@v3
         with:
-          aws-access-key-id:  ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ vars.AWS_REGION }}
+          access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: ${{ vars.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        id: ecr-login
-        uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Build & push image docker
-        env:
-          ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
-
+#  BUILD_PUSH_DOKCER:
+#    runs-on: ubuntu-latest
+#    environment: Production
+#    #    needs: [Build, Test, Scan]
+#    steps:
+#      - name: checkout
+#        uses: actions/checkout@v5
+#
+#      - name: Configure AWS credentials
+#        uses: aws-actions/configure-aws-credentials@v4
+#        with:
+#          aws-access-key-id:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#          aws-region: ${{ vars.AWS_REGION }}
+#
+#      - name: Login to Amazon ECR
+#        id: ecr-login
+#        uses: aws-actions/amazon-ecr-login@v2
+#
+#      - name: Build & push image docker
+#        env:
+#          ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+#          IMAGE_TAG: ${{ github.sha }}
+#        run: |
+#          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+#          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+#          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+#
 
   Post-check:
     if: always()
