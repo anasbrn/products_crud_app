@@ -46,7 +46,7 @@ jobs:
 
   BUILD_PUSH_DOKCER:
     runs-on: ubuntu-latest
-    environment: production
+    environment: Production
     #    needs: [Build, Test, Scan]
     steps:
       - name: checkout
