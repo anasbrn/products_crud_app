@@ -55,6 +55,11 @@ jobs:
           secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: ${{ vars.AWS_REGION }}
 
+      - name: print registry value
+        env:
+          ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+        run: echo "valueeeeeeeeeeeeee ${{ steps.ecr-login.outputs.registry }}"
+
       - name: Build & push image docker
         env:
           ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
