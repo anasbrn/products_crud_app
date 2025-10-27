@@ -3,99 +3,80 @@ on:
     branches:
       - main
 
-permissions:
-  issues: none
-  contents: none
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: ${{ vars.AWS_REGION }}
 
 jobs:
-#  Build:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Code checkout
-#        uses: actions/checkout@v5
-#
-#      - name: Maven Build
-#        run: mvn install -DskipTests
-#
-#      - name: Upload artifact
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: products_app_artifact
-#          path: target/*.jar
-#
-#  Test:
-#    runs-on: ubuntu-latest
-#    needs: Build
-#    steps:
-#      - name: Code checkout
-#        uses: actions/checkout@v5
-#
-#      - name: Maven Test
-#        run: mvn tes
-#
-#  Scan:
-#    runs-on: ubuntu-latest
-#    needs: Build
-#    steps:
-#      - name: Code checkout
-#        uses: actions/checkout@v5
-#
-#      - name: Test checkstyle
-#        run: mvn test checkstyle:checkstyle
-
-#  Foo:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Code checkout
-#        uses: actions/checkout@v5
-#
-#      - name: Create Foo dir
-#        run: mkdir Foo
-
-  cat_file_txt_not_exist:
+  Build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - name: Code checkout
+        uses: actions/checkout@v5
+
+      - name: Maven Build
+        run: mvn install -DskipTests
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
-          fetch-depth: 0
-      - run: |
-          git checkout 88267f35e95b1bffa919b8d579f00d617c4681e9
-          cat file.txt
+          name: products_app_artifact
+          path: target/*.jar
 
-  cat_file_txt_not_exist_depth_1:
+  Test:
     runs-on: ubuntu-latest
+    needs: Build
     steps:
-      - uses: actions/checkout@v5
-      - run: |
-          git checkout 88267f35e95b1bffa919b8d579f00d617c4681e9
-          cat file.txt
+      - name: Code checkout
+        uses: actions/checkout@v5
 
-  checkout:
+      - name: Maven Test
+        run: mvn tes
+
+  Scan:
     runs-on: ubuntu-latest
+    needs: Build
     steps:
-      - uses: actions/checkout@v5
+      - name: Code checkout
+        uses: actions/checkout@v5
+
+      - name: Test checkstyle
+        run: mvn test checkstyle:checkstyle
+
+  BUILD_PUSH_DOKCER:
+    runs-on: ubuntu-latest
+    needs: [Build, Test, Scan]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v5
+
+      - name: login to ECR
+        id: ecr
+        uses: elgohr/ecr-login-action@v3
         with:
-          fetch-depth: 0
-      - run: |
-          git checkout 88267f35e95b1bffa919b8d579f00d617c4681e9 -- file.txt
+          access_key: $AWS_ACCESS_KEY_ID
+          secret_access_key: $AWS_SECRET_ACCESS_KEY
+          region: $AWS_AWS_REGION
 
+  Post-check:
+    if: always()
+    runs-on: ubuntu-latest
+    needs: [Build, Test, Scan, BUILD_PUSH_DOKCER]
+    steps:
+      - name: Summarize Results
+        run: |
+          echo "Build result: ${{ needs.Build.result }}"
+          echo "Test result: ${{ needs.Test.result }}"
+          echo "Scan result: ${{ needs.Scan.result }}"
+          echo "BUILD_PUSH_DOKCER result: ${{ needs.BUILD_PUSH_DOKCER.result }}"
 
-#  Post-check:
-#    if: always()
-#    runs-on: ubuntu-latest
-#    needs: [Build, Test, Scan]
-#    steps:
-#      - name: Summarize Results
-#        run: |
-#          echo "Build result: ${{ needs.Build.result }}"
-#          echo "Test result: ${{ needs.Test.result }}"
-#          echo "Scan result: ${{ needs.Scan.result }}"
-#
-#      - name: Failure notif
-#        if: |
-#          needs.Build.result == 'failure' ||
-#          needs.Test.result == 'failure' ||
-#          needs.Scan.result == 'failure'
-#        run: |
-#          echo "❌ failed!"
+      - name: Failure notif
+        if: |
+          needs.Build.result == 'failure' ||
+          needs.Test.result == 'failure' ||
+          needs.Scan.result == 'failure' ||
+          needs.BUILD_PUSH_DOKCER.result == 'failure'
+        run: |
+          echo "❌ failed!"
 
