@@ -2,7 +2,8 @@ on:
   push:
     branches:
       - main
-
+env:
+  $ECR_REPOSITORY: "products-app-img"
 jobs:
 #  Build:
 #    runs-on: ubuntu-latest
@@ -60,7 +61,7 @@ jobs:
 
       - name: Build & push image docker
         env:
-          REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+          $ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
